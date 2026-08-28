@@ -236,6 +236,25 @@ a {
 .detail-meta strong { display: block; font-size: 0.78rem; margin-bottom: 5px; }
 .detail-meta span { color: var(--ink-soft); font-size: 0.83rem; }
 
+.shelf-control {
+  border-top: 1px solid var(--line);
+  margin-top: 34px;
+  padding-top: 22px;
+}
+.shelf-control-title { font-size: 0.78rem; font-weight: 750; margin: 0 0 14px; text-transform: uppercase; letter-spacing: 0.08em; }
+.shelf-form { align-items: end; display: flex; flex-wrap: wrap; gap: 10px; }
+.shelf-form label { color: var(--ink-soft); font-size: 0.78rem; font-weight: 700; }
+.shelf-form select { background: var(--paper); border: 1px solid var(--line); color: var(--foreground); font: inherit; padding: 12px; }
+.shelf-form .primary-button { margin: 0; }
+.remove-button { background: none; border: 0; color: var(--ink-soft); cursor: pointer; font: inherit; font-size: 0.78rem; margin-top: 15px; padding: 0; text-decoration: underline; }
+.remove-button:hover { color: var(--coral); }
+.shelf-login-note { border-top: 1px solid var(--line); color: var(--ink-soft); font-size: 0.88rem; margin-top: 34px; padding-top: 22px; }
+.shelf-login-note a { color: var(--coral); font-weight: 700; }
+.form-success { color: #4b7447; font-size: 0.84rem; margin: 14px 0 0; }
+.shelf-section { margin-top: 20px; }
+.shelf-section .section-heading { margin-top: 48px; }
+.shelf-empty { border: 1px dashed #bdb9ae; color: var(--ink-soft); font-size: 0.88rem; margin: 0; padding: 22px; }
+
 @media (max-width: 800px) {
   .page-width { padding-top: 48px; }
   .book-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
@@ -254,4 +273,6 @@ a {
   .detail-cover { max-width: 210px; }
   .placeholder { padding: 28px; }
   .auth-panel { padding: 32px 24px; }
+  .shelf-form { align-items: stretch; flex-direction: column; }
+  .shelf-form select, .shelf-form .primary-button { width: 100%; }
 }
