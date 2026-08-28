@@ -1,7 +1,13 @@
 import Link from "next/link";
 import { AppShell } from "@/components/AppShell";
+import { createClient } from "@/lib/supabase/server";
+import { redirect } from "next/navigation";
 
-export default function MyBooksPage() {
+export default async function MyBooksPage() {
+  const supabase = await createClient();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) redirect("/login");
+
   return (
     <AppShell>
       <main className="page-width">
