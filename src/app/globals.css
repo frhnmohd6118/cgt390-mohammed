@@ -18,6 +18,8 @@
   --font-mono: var(--font-geist-mono);
 }
 
+html { scrollbar-gutter: stable; }
+
 body {
   background: var(--background);
   color: var(--foreground);
@@ -48,6 +50,7 @@ a {
   max-width: 1180px;
   padding-left: 28px;
   padding-right: 28px;
+  width: 100%;
 }
 
 .header-inner {
@@ -173,13 +176,58 @@ a {
   max-width: 560px;
 }
 
+.discover-tabs {
+  border-bottom: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px;
+  margin-top: 58px;
+  width: 100%;
+}
+
+.discover-tab,
+.genre-option {
+  background: none;
+  border: 0;
+  color: var(--ink-soft);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.86rem;
+  padding: 0 0 12px;
+  text-align: center;
+  width: 100%;
+}
+
+.discover-tab:hover,
+.discover-tab.is-active,
+.genre-option:hover,
+.genre-option.is-active { color: var(--foreground); }
+
+.discover-tab.is-active { border-bottom: 2px solid var(--coral); color: var(--foreground); }
+
+.genre-options {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 18px 24px;
+  margin-top: 26px;
+  width: 100%;
+}
+
+.genre-option { border-bottom: 1px solid var(--line); padding-bottom: 6px; }
+.genre-option.is-active { border-color: var(--coral); color: var(--coral); }
+
+@media (max-width: 520px) {
+  .genre-options { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
 .section-heading {
   align-items: end;
   border-bottom: 1px solid var(--line);
   display: flex;
   justify-content: space-between;
-  margin: 76px 0 26px;
+  margin: 34px 0 26px;
   padding-bottom: 12px;
+  width: 100%;
 }
 
 .section-heading h2 { font-size: 1.25rem; letter-spacing: -0.03em; margin: 0; }
@@ -189,6 +237,7 @@ a {
   display: grid;
   gap: 34px 22px;
   grid-template-columns: repeat(4, minmax(0, 1fr));
+  width: 100%;
 }
 
 .book-card { min-width: 0; }

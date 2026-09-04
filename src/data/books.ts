@@ -17,6 +17,12 @@ export const books: Book[] = [
   { id: "the-last-lantern", title: "The Last Lantern", author: "Amaya North", genre: "Historical adventure", year: 2022, description: "Along a coast without stars, a lighthouse keeper follows a trail of impossible lights toward an old family secret.", coverStyle: "cover-lilac" },
 ];
 
+export const newReleases: Book[] = [
+  { id: "the-paper-kingdom", title: "The Paper Kingdom", author: "Elian Moss", genre: "Fantasy", year: 2026, description: "A bookbinder discovers a kingdom folded between the pages of a story no one remembers writing.", coverStyle: "cover-yellow" },
+  { id: "the-violet-hour", title: "The Violet Hour", author: "Celia Hart", genre: "Romance", year: 2026, description: "Two neighbors leave letters in a shared garden and slowly build a life from the words they cannot say aloud.", coverStyle: "cover-lilac" },
+  { id: "a-house-of-borrowed-names", title: "A House of Borrowed Names", author: "Noor Vale", genre: "Fiction", year: 2026, description: "Three strangers arrive at the same coastal house, each carrying a name that belongs to someone else.", coverStyle: "cover-coral" },
+];
+
 export function getBook(id: string) {
   return books.find((book) => book.id === id);
 }
