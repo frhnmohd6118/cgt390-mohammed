@@ -1,4 +1,5 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { AppShell } from "@/components/AppShell";
 import { books, getBook } from "@/data/books";
@@ -8,6 +9,17 @@ import { ShelfStatusControl } from "@/components/ShelfStatusControl";
 
 export function generateStaticParams() {
   return books.map((book) => ({ id: book.id }));
+}
+
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const { id } = await params;
+  const book = getBook(id);
+  if (!book) return { title: "Book not found | Shelfwise" };
+
+  return {
+    title: `${book.title} by ${book.author} | Shelfwise`,
+    description: `${book.title} by ${book.author}, a ${book.genre} story: ${book.description}`,
+  };
 }
 
 export default async function BookDetailPage({ params }: { params: Promise<{ id: string }> }) {
@@ -24,7 +36,13 @@ export default async function BookDetailPage({ params }: { params: Promise<{ id:
         <Link className="back-link" href="/discover">&larr; Back to Discover</Link>
         <div className="detail-layout">
           <div className="detail-cover">
-            <div className={`book-cover ${book.coverStyle}`}><span className="cover-title">{book.title}</span></div>
+            <div
+              className={`book-cover ${book.coverStyle}`}
+              role="img"
+              aria-label={`${book.title} by ${book.author} book cover`}
+            >
+              <span className="cover-title">{book.title}</span>
+            </div>
           </div>
           <article className="detail-copy">
             <span className="book-genre">{book.genre}</span>

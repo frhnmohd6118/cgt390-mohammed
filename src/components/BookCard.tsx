@@ -5,7 +5,11 @@ export function BookCard({ book }: { book: Book }) {
   return (
     <article className="book-card">
       <Link href={`/books/${book.id}`} aria-label={`View ${book.title}`}>
-        <div className={`book-cover ${book.coverStyle}`}>
+        <div
+          className={`book-cover ${book.coverStyle}`}
+          role="img"
+          aria-label={`${book.title} by ${book.author} book cover`}
+        >
           <span className="cover-title">{book.title}</span>
         </div>
         <p className="book-author">{book.author}</p>
