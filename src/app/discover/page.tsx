@@ -1,6 +1,11 @@
+import type { Metadata } from "next";
 import { AppShell } from "@/components/AppShell";
 import { DiscoverTabs } from "@/components/DiscoverTabs";
 import { books, newReleases } from "@/data/books";
+
+export const metadata: Metadata = {
+  title: "Discover | Shelfwise",
+};
 
 export default function DiscoverPage() {
   return (
