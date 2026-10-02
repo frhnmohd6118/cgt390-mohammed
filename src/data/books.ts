@@ -8,6 +8,9 @@ export type Book = {
   coverStyle: string;
 };
 
+export type BookCollection = "Recommended" | "New Releases";
+export type CatalogBook = Book & { collection: BookCollection };
+
 export const books: Book[] = [
   { id: "tide-house", title: "The Tide House", author: "Mara Venn", genre: "Literary fiction", year: 2025, description: "When a cartographer inherits a house that appears only at low tide, she must map its rooms before the sea returns.", coverStyle: "cover-blue" },
   { id: "small-weather", title: "Small Weather", author: "Iris Bell", genre: "Magical realism", year: 2024, description: "A quiet town begins trading memories for rain, and one young meteorologist keeps finding storms in her kitchen.", coverStyle: "cover-sage" },
@@ -23,6 +26,11 @@ export const newReleases: Book[] = [
   { id: "a-house-of-borrowed-names", title: "A House of Borrowed Names", author: "Noor Vale", genre: "Fiction", year: 2026, description: "Three strangers arrive at the same coastal house, each carrying a name that belongs to someone else.", coverStyle: "cover-coral" },
 ];
 
+export const allBooks: CatalogBook[] = [
+  ...books.map((book) => ({ ...book, collection: "Recommended" as const })),
+  ...newReleases.map((book) => ({ ...book, collection: "New Releases" as const })),
+];
+
 export function getBook(id: string) {
-  return books.find((book) => book.id === id);
+  return allBooks.find((book) => book.id === id);
 }

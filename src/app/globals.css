@@ -6,7 +6,7 @@
   --ink-soft: #69685f;
   --line: #dedbd2;
   --paper: #fffdf8;
-  --coral: #b94732;
+  --coral: #ca3719;
   --sage: #cbd9c2;
   --blue: #d7e4e7;
 }
@@ -135,7 +135,7 @@ a {
   padding: 12px;
   width: 100%;
 }
-.auth-form input:focus { border-color: var(--coral); outline: 2px solid rgba(185, 71, 50, 0.2); }
+.auth-form input:focus { border-color: var(--coral); outline: 2px solid rgba(202, 55, 25, 0.2); }
 .primary-button {
   background: var(--foreground);
   border: 0;

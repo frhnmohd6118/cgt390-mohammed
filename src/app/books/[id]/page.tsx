@@ -2,13 +2,13 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { AppShell } from "@/components/AppShell";
-import { books, getBook } from "@/data/books";
+import { allBooks, getBook } from "@/data/books";
 import { createClient } from "@/lib/supabase/server";
 import { getShelfEntry } from "@/lib/shelves";
 import { ShelfStatusControl } from "@/components/ShelfStatusControl";
 
 export function generateStaticParams() {
-  return books.map((book) => ({ id: book.id }));
+  return allBooks.map((book) => ({ id: book.id }));
 }
 
 export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
@@ -52,7 +52,7 @@ export default async function BookDetailPage({ params }: { params: Promise<{ id:
             {user ? <ShelfStatusControl bookId={book.id} entry={entry} /> : <p className="shelf-login-note"><Link href="/login">Log in</Link> to save this book to your shelf.</p>}
             <div className="detail-meta">
               <div><strong>Published</strong><span>{book.year}</span></div>
-              <div><strong>Collection</strong><span>Recommended</span></div>
+              <div><strong>Collection</strong><span>{book.collection}</span></div>
             </div>
           </article>
         </div>
