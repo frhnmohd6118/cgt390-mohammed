@@ -48,8 +48,8 @@ export default async function BookDetailPage({ params }: { params: Promise<{ id:
             <span className="book-genre">{book.genre}</span>
             <h1>{book.title}</h1>
             <p className="book-author">By {book.author}</p>
-            <p className="detail-description">{book.description}</p>
             {user ? <ShelfStatusControl bookId={book.id} entry={entry} /> : <p className="shelf-login-note"><Link href="/login">Log in</Link> to save this book to your shelf.</p>}
+            <p className="detail-description">{book.description}</p>
             <div className="detail-meta">
               <div><strong>Published</strong><span>{book.year}</span></div>
               <div><strong>Collection</strong><span>{book.collection}</span></div>

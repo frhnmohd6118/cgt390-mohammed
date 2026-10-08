@@ -278,6 +278,14 @@ a {
 
 .detail-layout { align-items: start; display: grid; gap: 70px; grid-template-columns: 280px 1fr; margin: 35px auto 0; max-width: 920px; }
 .detail-cover .book-cover { margin: 0; }
+.detail-copy { display: flex; flex-direction: column; }
+.detail-copy > .book-genre { order: 1; }
+.detail-copy > h1 { order: 2; }
+.detail-copy > .book-author { margin-bottom: 0; order: 3; }
+.detail-copy > .detail-description { margin-bottom: 0; order: 4; }
+.detail-copy > .shelf-control,
+.detail-copy > .shelf-login-note { order: 5; }
+.detail-copy > .detail-meta { order: 6; }
 .detail-copy h1 { font-size: clamp(2.5rem, 6vw, 5rem); letter-spacing: -0.08em; line-height: 0.92; margin: 12px 0 18px; max-width: 650px; }
 .detail-copy .book-author { font-size: 1rem; }
 .detail-description { border-top: 1px solid var(--line); color: var(--ink-soft); line-height: 1.8; margin-top: 34px; padding-top: 22px; }
@@ -306,7 +314,7 @@ a {
 
 @media (max-width: 800px) {
   .page-width { padding-top: 48px; }
-  .book-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .book-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .detail-layout { gap: 32px; grid-template-columns: 180px 1fr; }
   .detail-copy h1 { font-size: 3rem; }
   .nav-note { display: none; }
@@ -318,7 +326,19 @@ a {
   .main-nav { gap: 14px; font-size: 0.78rem; }
   .page-title { font-size: 3.1rem; }
   .section-heading { align-items: start; flex-direction: column; gap: 8px; }
+  .book-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .detail-layout { grid-template-columns: 1fr; }
+  .detail-copy {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .detail-copy > .book-genre { grid-row: 1; }
+  .detail-copy > h1 { grid-row: 2; }
+  .detail-copy > .book-author { grid-row: 3; }
+  .detail-copy > .shelf-control,
+  .detail-copy > .shelf-login-note { grid-row: 4; }
+  .detail-copy > .detail-description { grid-row: 5; }
+  .detail-copy > .detail-meta { grid-row: 6; }
   .detail-cover { max-width: 210px; }
   .placeholder { padding: 28px; }
   .auth-panel { padding: 32px 24px; }
