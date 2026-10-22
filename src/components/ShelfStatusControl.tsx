@@ -1,7 +1,7 @@
 "use client";
 
-import { useActionState, useEffect, useRef } from "react";
-import { deleteShelfEntry, updateShelfEntry } from "@/app/actions/shelves";
+import { useRouter } from "next/navigation";
+import { useState, type FormEvent } from "react";
 import type { ShelfEntry, ShelfStatus } from "@/types/shelf";
 import { isShelfStatus, shelfStatuses, shelfStatusLabels } from "@/types/shelf";
 
@@ -16,29 +16,84 @@ function trackShelfEvent(eventName: string, status: ShelfStatus) {
 }
 
 export function ShelfStatusControl({ bookId, entry }: { bookId: string; entry: ShelfEntry | null }) {
-  const [updateState, updateAction, updatePending] = useActionState(updateShelfEntry, {});
-  const [deleteState, deleteAction, deletePending] = useActionState(deleteShelfEntry, {});
-  const addIntentRef = useRef<ShelfStatus | null>(null);
+  const router = useRouter();
+  const [updateError, setUpdateError] = useState<string | null>(null);
+  const [updateSuccess, setUpdateSuccess] = useState<string | null>(null);
+  const [deleteError, setDeleteError] = useState<string | null>(null);
+  const [deleteSuccess, setDeleteSuccess] = useState<string | null>(null);
+  const [updatePending, setUpdatePending] = useState(false);
+  const [deletePending, setDeletePending] = useState(false);
 
-  useEffect(() => {
-    const status = addIntentRef.current;
-    if (!status || !updateState.success) return;
+  async function handleUpdate(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const status = new FormData(event.currentTarget).get("status");
+    if (!isShelfStatus(status)) {
+      setUpdateError("Choose a valid shelf status.");
+      setUpdateSuccess(null);
+      return;
+    }
 
-    trackShelfEvent("add_to_shelf", status);
-    addIntentRef.current = null;
-  }, [updateState.success]);
+    setUpdatePending(true);
+    setUpdateError(null);
+    setUpdateSuccess(null);
+
+    try {
+      const response = await fetch("/api/shelf", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ bookId, status }),
+      });
+      const result: { error?: string; success?: string } = await response.json();
+
+      if (!response.ok) {
+        setUpdateError(result.error ?? "Unable to update your shelf.");
+        return;
+      }
+
+      setUpdateSuccess(result.success ?? "Shelf updated.");
+      if (!entry) trackShelfEvent("add_to_shelf", status);
+      router.refresh();
+    } catch {
+      setUpdateError("Unable to update your shelf.");
+    } finally {
+      setUpdatePending(false);
+    }
+  }
+
+  async function handleDelete(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    setDeletePending(true);
+    setDeleteError(null);
+    setDeleteSuccess(null);
+
+    try {
+      const response = await fetch("/api/shelf", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ bookId }),
+      });
+      const result: { error?: string; success?: string } = await response.json();
+
+      if (!response.ok) {
+        setDeleteError(result.error ?? "Unable to remove this book.");
+        return;
+      }
+
+      setDeleteSuccess(result.success ?? "Removed from your shelf.");
+      router.refresh();
+    } catch {
+      setDeleteError("Unable to remove this book.");
+    } finally {
+      setDeletePending(false);
+    }
+  }
 
   return (
     <div className="shelf-control">
       <p className="shelf-control-title">Your shelf</p>
       <form
-        action={updateAction}
         className="shelf-form"
-        onSubmit={(event) => {
-          if (entry) return;
-          const status = new FormData(event.currentTarget).get("status");
-          if (isShelfStatus(status)) addIntentRef.current = status;
-        }}
+        onSubmit={handleUpdate}
       >
         <input name="bookId" type="hidden" value={bookId} />
         <label htmlFor="shelf-status">Status</label>
@@ -57,9 +112,9 @@ export function ShelfStatusControl({ bookId, entry }: { bookId: string; entry: S
         </select>
         <button className="primary-button" disabled={updatePending} type="submit">{updatePending ? "Saving..." : entry ? "Update shelf" : "Add to shelf"}</button>
       </form>
-      {(updateState.error || deleteState.error) && <p className="form-error" role="alert">{updateState.error || deleteState.error}</p>}
-      {(updateState.success || deleteState.success) && <p className="form-success" role="status">{updateState.success || deleteState.success}</p>}
-      {entry && <form action={deleteAction}><input name="bookId" type="hidden" value={bookId} /><button className="remove-button" disabled={deletePending} type="submit">{deletePending ? "Removing..." : "Remove from shelf"}</button></form>}
+      {(updateError || deleteError) && <p className="form-error" role="alert">{updateError || deleteError}</p>}
+      {(updateSuccess || deleteSuccess) && <p className="form-success" role="status">{updateSuccess || deleteSuccess}</p>}
+      {entry && <form onSubmit={handleDelete}><input name="bookId" type="hidden" value={bookId} /><button className="remove-button" disabled={deletePending} type="submit">{deletePending ? "Removing..." : "Remove from shelf"}</button></form>}
     </div>
   );
 }
