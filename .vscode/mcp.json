@@ -1,0 +1,11 @@
+{
+  "servers": {
+    "shelfwise": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "${workspaceFolder}/advising-mcp/server.mjs"
+      ]
+    }
+  }
+}
